@@ -1,3 +1,5 @@
+let img = require('./工具图/原型链关系.png')
+
 function objectFactory(construct, ...args) {
   let obj = Object.create(null)
   obj.__proto__ = construct.prototype
