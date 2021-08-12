@@ -1,3 +1,4 @@
+// 不够完善: deepClone('')  => { }
 function deepClone(org, tar) {
   var tar = tar || {}
   var toStr = Object.prototype.toString
@@ -15,11 +16,22 @@ function deepClone(org, tar) {
   return tar
 }
 
-module.exports = function clone(target) {
+/**
+ * 考虑循环引用问题，使用WeakMap做弱引用
+ * - [docs](https://cloud.tencent.com/developer/article/1497418)
+ * @param {*} target
+ * @param {*} [map=new WeakMap()]
+ * @return {*}
+ */
+function clone(target, map = new WeakMap()) {
   if (typeof target === "object") {
     let cloneTarget = Array.isArray(target) ? [] : {}
+    if (map.get(target)) {
+      return target
+    }
+    map.set(target, cloneTarget)
     for (const key in target) {
-      cloneTarget[key] = clone(target[key])
+      cloneTarget[key] = clone(target[key], map)
     }
     return cloneTarget
   } else {
