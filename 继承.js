@@ -4,7 +4,7 @@
  * ----------------------------------------------------------------------
  * 原型链继承
  * - [doc](https://github.com/mqyqingfeng/Blog/issues/16)
- * - 问题：1.引用类型的属性被所有实例共享，举个例子：
+ * - 问题：1.引用类型的属性被所有实例共享；2.在创建 Child 的实例时，不能向Parent传参
  */
 function Parent() {
   this.names = ["kevin", "daisy"]
@@ -120,7 +120,7 @@ function createObj(o) {
  * ----------------------------------------------------------------------
  * 6 寄生组合式继承
  * - [doc](https://github.com/mqyqingfeng/Blog/issues/16)
- * - 缺点：组合继承最大的缺点是会调用两次父构造函数。
+ * - 这种方式的高效率体现它只调用了一次 Parent 构造函数，并且因此避免了在 Parent.prototype 上面创建不必要的、多余的属性。与此同时，原型链还能保持不变；因此，还能够正常使用 instanceof 和 isPrototypeOf。开发人员普遍认为寄生组合式继承是引用类型最理想的继承范式。
  */
 
 function Parent(name) {
@@ -137,7 +137,12 @@ function Child(name, age) {
   this.age = age
 }
 
-Child.prototype = new Parent()
+// 关键的三步
+var F = function () {}
+
+F.prototype = Parent.prototype
+
+Child.prototype = new F()
 
 var child1 = new Child("kevin", "18")
 
