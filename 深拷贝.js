@@ -19,6 +19,7 @@ function deepClone(org, tar) {
 /**
  * 考虑循环引用问题，使用WeakMap做弱引用
  * - [docs](https://cloud.tencent.com/developer/article/1497418)
+ * - [Object.prototype.toString](https://ask.qcloudimg.com/http-save/yehe-3713434/nb0dwyns7q.jpeg?imageView2/2/w/1620)
  * @param {*} target
  * @param {*} [map=new WeakMap()]
  * @return {*}
