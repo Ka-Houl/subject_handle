@@ -7,6 +7,7 @@ function throttle(fn, delay) {
     var _self = this,
       args = arguments,
       cur = new Date().getTime
+
     clearTimeout(t)
 
     if (cur - begin >= delay) {
